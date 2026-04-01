@@ -1,0 +1,151 @@
+Penjelasan dari Program Lengan Bergerak
+
+Program ini membuat lengan robot sederhana dengan dua bagian:
+
+* Lengan atas (shoulder)
+* Lengan bawah (elbow)
+
+==================================================
+
+1. Variabel Utama
+
+Penjelasan:
+Variabel ini menyimpan sudut rotasi masing-masing bagian lengan.
+
+Kode:
+static int shoulder = 0, elbow = 0;
+
+Keterangan:
+shoulder : sudut putar lengan atas
+elbow : sudut putar lengan bawah
+
+==================================================
+
+2. Awal Menggambar (Reset Layar)
+
+Penjelasan:
+Membersihkan layar dan mengatur posisi awal objek.
+
+Kode:
+glClear(GL_COLOR_BUFFER_BIT);
+glLoadIdentity();
+
+==================================================
+
+3. Mengatur Shoulder (Lengan Atas)
+
+Penjelasan:
+Objek digeser ke titik sendi, lalu diputar, lalu dikembalikan.
+Ini supaya rotasi terjadi di bahu.
+
+Kode:
+glTranslatef(-1.0, 0.0, 0.0);
+glRotatef((GLfloat) shoulder, 0.0, 0.0, 1.0);
+glTranslatef(1.0, 0.0, 0.0);
+
+==================================================
+
+4. Menggambar Lengan Atas
+
+Penjelasan:
+Kubus diubah bentuknya jadi panjang seperti lengan.
+
+Kode:
+glPushMatrix();
+glScalef(2.0, 0.4, 1.0);
+glutWireCube(1.0);
+glPopMatrix();
+
+==================================================
+
+5. Mengatur Elbow (Lengan Bawah)
+
+Penjelasan:
+Setelah lengan atas, posisi sudah di ujungnya.
+Lalu diputar lagi untuk siku.
+
+Kode:
+glTranslatef(1.0, 0.0, 0.0);
+glRotatef((GLfloat) elbow, 0.0, 0.0, 1.0);
+glTranslatef(1.0, 0.0, 0.0);
+
+Catatan:
+Elbow mengikuti shoulder karena urutan kode.
+
+==================================================
+
+6. Menggambar Lengan Bawah
+
+Penjelasan:
+Sama seperti sebelumnya, membuat kubus jadi lengan kedua.
+
+Kode:
+glPushMatrix();
+glScalef(2.0, 0.4, 1.0);
+glutWireCube(1.0);
+glPopMatrix();
+
+==================================================
+
+7. Kontrol Keyboard
+
+Penjelasan:
+Mengubah sudut rotasi saat tombol ditekan.
+
+Kode:
+case 's':
+shoulder = (shoulder + 5) % 360;
+glutPostRedisplay();
+break;
+
+case 'S':
+shoulder = (shoulder - 5) % 360;
+glutPostRedisplay();
+break;
+
+case 'e':
+elbow = (elbow + 5) % 360;
+glutPostRedisplay();
+break;
+
+case 'E':
+elbow = (elbow - 5) % 360;
+glutPostRedisplay();
+break;
+
+==================================================
+
+8. Mengatur Tampilan (Kamera)
+
+Penjelasan:
+Mengatur sudut pandang agar objek terlihat seperti 3D.
+
+Kode:
+gluPerspective(65.0, (GLfloat) w / (GLfloat) h, 1.0, 20.0);
+glTranslatef(0.0, 0.0, -5.0);
+
+==================================================
+
+9. Kesimpulan
+
+Penjelasan:
+Program menggunakan konsep hierarki
+Shoulder : parent
+Elbow : child
+Urutan transformasi sangat penting
+
+Kode penting:
+glPushMatrix();
+glPopMatrix();
+
+Fungsi:
+Menyimpan dan mengembalikan posisi agar transformasi tidak merusak bagian lain.
+
+==================================================
+
+Analogi:
+Seperti lengan manusia
+Bahu : menggerakkan seluruh lengan
+Siku : hanya menggerakkan bagian bawah
+
+==================================================
